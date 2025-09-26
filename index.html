@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج مدرسة هوس إيروف للشمامسة</title>
+    <link rel="icon" type="image/png" href="مدرسة الشمامسة.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #5A55E0;
+            --primary-light: #7B78E9;
+            --secondary-color: #F0F2F7;
+            --text-dark: #232052;
+            --text-light: #6A7185;
+            --background-color: #F7F8FC;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+            --border-color: #E3E6F0;
+        }
+
+        body {
+            font-family: "Tajawal", sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .school-info img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 12px;
+        }
+
+        .school-info h2 {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .school-info p {
+            margin: 4px 0 0;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .page-title h1 {
+            margin: 25px 0 10px;
+            color: var(--text-dark);
+            font-size: 1.75rem;
+        }
+
+        .page-title p {
+            margin: 0 0 25px;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        #studentCode {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            background-color: var(--secondary-color);
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            /* Important for padding and border */
+        }
+
+        #studentCode::placeholder {
+            color: #A0A8BD;
+        }
+
+        #studentCode:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(90, 85, 224, 0.15);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(90, 85, 224, 0.2);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--border-color);
+            background: transparent;
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: rgba(90, 85, 224, 0.05);
+        }
+
+        #result {
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        /* Result Card Styling */
+        #result-card {
+            background-color: var(--secondary-color);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .student-name {
+            color: var(--text-dark);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0 0 5px;
+        }
+
+        .student-course {
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: 500;
+            margin: 0 0 20px;
+        }
+
+        .grades-list {
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .grade-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            font-size: 1rem;
+        }
+
+        .grade-item:not(:last-child) {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .subject-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .grade-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 12px;
+            background-color: #ccc;
+            /* Default for non-graded */
+        }
+
+        .subject {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .grade-evaluation {
+            color: var(--text-light);
+            font-weight: 500;
+            background-color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Grade Colors */
+        .grade-a .grade-dot {
+            background: #38A169;
+        }
+
+        /* Green */
+        .grade-a .grade-evaluation {
+            color: #38A169;
+        }
+
+        .grade-b .grade-dot {
+            background: #3182CE;
+        }
+
+        /* Blue */
+        .grade-b .grade-evaluation {
+            color: #3182CE;
+        }
+
+        .grade-c .grade-dot {
+            background: #D69E2E;
+        }
+
+        /* Yellow */
+        .grade-c .grade-evaluation {
+            color: #D69E2E;
+        }
+
+        .grade-d .grade-dot {
+            background: #DD6B20;
+        }
+
+        /* Orange */
+        .grade-d .grade-evaluation {
+            color: #DD6B20;
+        }
+
+        .grade-e .grade-dot {
+            background: #E53E3E;
+        }
+
+        /* Red */
+        .grade-e .grade-evaluation {
+            color: #E53E3E;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .message.error {
+            background: #FED7D7;
+            color: #C53030;
+            border: 1px solid #FBC2C2;
+        }
+
+        .loader {
+            border: 4px solid var(--secondary-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="school-info">
+            <img src="مدرسة الشمامسة.png" alt="logo">
+            <h2>مدرسة هوس إيروف للشمامسة</h2>
+            <p>كنيسة مارمرقس والأنبا بيشوي</p>
+        </div>
+        <div class="page-title">
+            <h1>عرض النتائج</h1>
+            <p>أدخل كود الطالب الخاص بك لعرض التقييمات.</p>
+        </div>
+        <input type="text" id="studentCode" placeholder="ادخل الكود هنا...">
+        <button id="submitBtn" class="btn btn-primary">عرض النتيجة</button>
+        <div id="result"></div>
+        <div id="actionsContainer"></div>
+    </div>
+
+    <script>
+        const studentCodeInput = document.getElementById("studentCode");
+        const submitBtn = document.getElementById("submitBtn");
+        const resultDiv = document.getElementById("result");
+        const actionsContainer = document.getElementById("actionsContainer");
+
+        const gradeMap = {
+            A: { text: "يفوق التوقعات", className: "grade-a" },
+            B: { text: "يلبي التوقعات جدًا", className: "grade-b" },
+            C: { text: "يلبي التوقعات", className: "grade-c" },
+            D: { text: "يلبي التوقعات أحيانًا", className: "grade-d" },
+            E: { text: "أقل من المتوقع", className: "grade-e" }
+        };
+
+        function showLoader() {
+            resultDiv.innerHTML = '<div class="loader"></div>';
+            actionsContainer.innerHTML = "";
+        }
+
+        function resetSearch() {
+            resultDiv.innerHTML = "";
+            actionsContainer.innerHTML = "";
+            studentCodeInput.value = "";
+            studentCodeInput.focus();
+        }
+
+        async function getStudentData() {
+            const code = studentCodeInput.value.trim();
+            if (!code) return;
+
+            showLoader();
+            try {
+                // Using a timeout to simulate network latency for loader visibility
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                const res = await fetch("results.json");
+                if (!res.ok) throw new Error('Network response was not ok');
+                const data = await res.json();
+
+                const student = data.find(item => String(item.code) === code);
+                if (student) {
+                    displayStudentData(student);
+                } else {
+                    resultDiv.innerHTML = '<div class="message error">الكود غير صحيح أو غير موجود.</div>';
+                    actionsContainer.innerHTML = '<button id="searchAgainBtn" class="btn btn-secondary">بحث جديد</button>';
+                    document.getElementById("searchAgainBtn").addEventListener("click", resetSearch);
+                }
+            } catch (err) {
+                console.error("Fetch Error:", err);
+                resultDiv.innerHTML = '<div class="message error">حدث خطأ أثناء تحميل البيانات.</div>';
+                actionsContainer.innerHTML = '<button id="searchAgainBtn" class="btn btn-secondary">بحث جديد</button>';
+                document.getElementById("searchAgainBtn").addEventListener("click", resetSearch);
+            }
+        }
+
+        function displayStudentData(e) {
+            const subjects = [
+                { key: "coptic", name: "قبطي" },
+                { key: "rites", name: "طقس" },
+                { key: "agpeya", name: "أجبية" },
+                { key: "hymns", name: "ألحان" }
+            ];
+
+            let gradesHtml = "";
+            subjects.forEach(sub => {
+                if (e.hasOwnProperty(sub.key)) {
+                    const grade = (e[sub.key] || "").toString().toUpperCase();
+                    const g = gradeMap[grade] || { text: "غير مرصود", className: "" };
+                    gradesHtml += `
+                    <div class="grade-item ${g.className}">
+                        <div class="subject-container">
+                            <div class="grade-dot"></div>
+                            <span class="subject">${sub.name}</span>
+                        </div>
+                        <span class="grade-evaluation">${g.text}</span>
+                    </div>`;
+                }
+            });
+
+            if (e.totalgrade) {
+                const grade = e.totalgrade.toUpperCase();
+                const g = gradeMap[grade] || { text: "غير مرصود", className: "" };
+                gradesHtml += `
+                <div class="grade-item ${g.className}">
+                    <div class="subject-container">
+                        <div class="grade-dot"></div>
+                        <span class="subject"><strong>التقييم العام</strong></span>
+                    </div>
+                    <span class="grade-evaluation"><strong>${g.text}</strong></span>
+                </div>`;
+            }
+
+            if (e.rank) {
+                gradesHtml += `
+                <div class="grade-item">
+                    <div class="subject-container">
+                        <span class="subject">الترتيب على الخورس</span>
+                    </div>
+                    <span class="grade-evaluation">${e.rank}</span>
+                </div>`;
+            }
+
+            resultDiv.innerHTML = `
+                <div id="result-card">
+                    <h2 class="student-name">${e.name}</h2>
+                    <p class="student-course">${e.course || "غير محدد"}</p>
+                    <div class="grades-list">${gradesHtml}</div>
+                </div>
+            `;
+            actionsContainer.innerHTML = '<button id="searchAgainBtn" class="btn btn-secondary">بحث عن طالب آخر</button>';
+            document.getElementById("searchAgainBtn").addEventListener("click", resetSearch);
+        }
+
+        submitBtn.addEventListener("click", getStudentData);
+        studentCodeInput.addEventListener("keyup", e => { if (e.key === "Enter") getStudentData(); });
+    </script>
+</body>
+
+</html>

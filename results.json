@@ -1,0 +1,134 @@
+[
+    {
+        "code": "101",
+        "name": "مينا رأفت",
+        "course": "خورس بي منريت",
+        "coptic": "B",
+        "rites": "B",
+        "agpeya": "A",
+        "hymns": "B",
+        "totalgrade": "B",
+        "rank": "الأول"
+    },
+    {
+        "code": "102",
+        "name": "سارة أمل",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "A",
+        "rites": "A",
+        "agpeya": "A",
+        "hymns": "A",
+        "totalgrade": "A",
+        "rank": "الثالث"
+    },
+    {
+        "code": "105",
+        "name": "م. مايكل",
+        "course": "خورس بي ثيؤريموس",
+        "coptic": "A",
+        "rites": "A",
+        "agpeya": "A",
+        "hymns": "A",
+        "totalgrade": "A",
+        "rank": "الأول"
+    },
+    {
+        "code": "106",
+        "name": "مينا ميشيل",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "A",
+        "rites": "A",
+        "agpeya": "A",
+        "hymns": "A",
+        "totalgrade": "A",
+        "rank": "الأول"
+    },
+    {
+        "code": "107",
+        "name": "مينا رامي",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "E",
+        "rites": "E",
+        "agpeya": "E",
+        "hymns": "E",
+        "totalgrade": "E",
+        "rank": ""
+    },
+    {
+        "code": "108",
+        "name": "رامي",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "E",
+        "rites": "E",
+        "agpeya": "E",
+        "hymns": "E",
+        "totalgrade": "E",
+        "rank": ""
+    },
+    {
+        "code": "109",
+        "name": "مينا",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "E",
+        "rites": "E",
+        "agpeya": "E",
+        "hymns": "E",
+        "totalgrade": "E",
+        "rank": ""
+    },
+    {
+        "code": "110",
+        "name": "سرعوف",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "E",
+        "rites": "C",
+        "agpeya": "E",
+        "hymns": "E",
+        "totalgrade": "E",
+        "rank": ""
+    },
+    {
+        "code": "111",
+        "name": "عرسوف",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "B",
+        "rites": "B",
+        "agpeya": "E",
+        "hymns": "E",
+        "totalgrade": "D",
+        "rank": "الرابع"
+    },
+    {
+        "code": "112",
+        "name": "بتنجان",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "E",
+        "rites": "A",
+        "agpeya": "E",
+        "hymns": "E",
+        "totalgrade": "E",
+        "rank": "الخامس"
+    },
+    {
+        "code": "113",
+        "name": "مسا مسا",
+        "course": "خورس تي أورو",
+        "coptic": "A",
+        "rites": "A",
+        "agpeya": "A",
+        "hymns": "A",
+        "totalgrade": "A",
+        "rank": "الأول"
+    },
+    {
+        "code": "114",
+        "name": "جرجس",
+        "course": "خورس ني آنجيلوس إسناف",
+        "coptic": "A",
+        "rites": "A",
+        "agpeya": "A",
+        "hymns": "A",
+        "totalgrade": "A",
+        "rank": "الثاني"
+    }
+]
