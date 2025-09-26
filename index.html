@@ -37,7 +37,7 @@
             padding: 20px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
+            overflow: hidden; /* Prevent scrollbars from animation overflows */
         }
 
         .container {
@@ -263,6 +263,7 @@
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* --- CELEBRATION & ANIMATION STYLES --- */
         .celebration {
             position: fixed;
             top: 0;
@@ -276,6 +277,81 @@
         }
 
         .celebration.active { display: block; }
+        
+        #animation-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            top: -20px;
+            opacity: 0;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0vh) rotateZ(0deg) rotateY(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotateZ(720deg) rotateY(360deg);
+                opacity: 0;
+            }
+        }
+
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 75px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            background-color: rgba(90, 85, 224, 0.7);
+            border: 2px solid;
+            bottom: -100px;
+            opacity: 0;
+            animation: rise 10s ease-in infinite;
+        }
+
+        .balloon::before { /* The knot */
+            content: '';
+            position: absolute;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 9px solid;
+            border-bottom-color: inherit;
+        }
+
+        @keyframes rise {
+             0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+             10% {
+                transform: rotate(-5deg);
+             }
+             20% {
+                transform: rotate(5deg);
+             }
+             90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(10deg);
+                opacity: 0;
+            }
+        }
 
         .notification {
             position: fixed;
@@ -297,6 +373,13 @@
             to {
                 transform: translate(-50%, -50%) scale(1);
                 opacity: 1;
+            }
+        }
+        
+        @keyframes popOut {
+            to {
+                transform: translate(-50%, -50%) scale(0.7);
+                opacity: 0;
             }
         }
 
@@ -345,6 +428,7 @@
     </div>
 
     <div class="celebration" id="celebrationContainer">
+        <div id="animation-container"></div>
         <div class="notification">
             <div class="trophy">🏆</div>
             <h2>مبرووووك!</h2>
@@ -359,12 +443,10 @@
         const resultDiv = document.getElementById("result");
         const actionsContainer = document.getElementById("actionsContainer");
         const celebrationContainer = document.getElementById("celebrationContainer");
+        const animationContainer = document.getElementById("animation-container");
 
-        // --- CORRECTED LOGIC ---
-        // 1. A variable to hold all student data once loaded.
         let allStudentsData = [];
 
-        // 2. Load all data from the JSON file when the page starts.
         document.addEventListener("DOMContentLoaded", async () => {
             try {
                 const response = await fetch('results.json');
@@ -397,27 +479,74 @@
             actionsContainer.innerHTML = "";
             studentCodeInput.value = "";
             celebrationContainer.classList.remove('active');
+            animationContainer.innerHTML = ''; // Clear old animations
+            const notification = celebrationContainer.querySelector('.notification');
+            if (notification) notification.style.animation = ''; // Reset notification animation
             studentCodeInput.focus();
         }
 
-        function triggerCelebration(rank) {
-            document.getElementById('rankMessage').textContent = `لقد حصلت على المركز ${rank}`;
-            celebrationContainer.classList.add('active');
+        function startCelebrationAnimation() {
+            animationContainer.innerHTML = ''; // Clear previous animations
+            const colors = ['#5A55E0', '#3182CE', '#38A169', '#DD6B20', '#D69E2E', '#E53E3E'];
             
-            setTimeout(() => {
-                const notification = celebrationContainer.querySelector('.notification');
-                if (notification) notification.style.display = 'none';
-            }, 6000);
+            // Create Confetti (Flying Papers)
+            const confettiCount = 100;
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = `${Math.random() * 3 + 4}s`; // 4-7 seconds
+                confetti.style.animationDelay = `${Math.random() * 5}s`;
+                if(Math.random() > 0.5) { // Make some rectangular
+                    confetti.style.width = '15px';
+                    confetti.style.height = '8px';
+                }
+                animationContainer.appendChild(confetti);
+            }
+
+            // Create Balloons
+            const balloonCount = 15;
+            for (let i = 0; i < balloonCount; i++) {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                balloon.style.left = `${Math.random() * 90}%`;
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.backgroundColor = `${randomColor}B3`; // Add alpha transparency
+                balloon.style.borderColor = randomColor; // For the knot
+                balloon.style.animationDuration = `${Math.random() * 5 + 7}s`; // 7-12 seconds
+                balloon.style.animationDelay = `${Math.random() * 4}s`;
+                animationContainer.appendChild(balloon);
+            }
         }
 
-        // 3. The search function now looks for a student in the loaded data.
+        function triggerCelebration(rank) {
+            const rankMessages = {
+                "الأول": "لقد حصلت على المركز الأول",
+                "الثاني": "لقد حصلت على المركز الثاني",
+                "الثالث": "لقد حصلت على المركز الثالث",
+                "الرابع": "لقد حصلت على المركز الرابع",
+                "الخامس": "لقد حصلت على المركز الخامس"
+            };
+            document.getElementById('rankMessage').textContent = rankMessages[rank];
+            celebrationContainer.classList.add('active');
+            startCelebrationAnimation();
+            
+            // Hide notification after a while, but let animations continue
+            setTimeout(() => {
+                const notification = celebrationContainer.querySelector('.notification');
+                if (notification) {
+                    notification.style.animation = 'popOut 0.5s ease-out forwards';
+                }
+            }, 5500);
+        }
+
         function getStudentData() {
             const code = studentCodeInput.value.trim();
             if (!code) return;
 
             showLoader();
             
-            // Simulate a short delay to make the loader visible
             setTimeout(() => {
                 const student = allStudentsData.find(s => s.code === code);
 
@@ -427,11 +556,13 @@
                     document.getElementById("searchAgainBtn").addEventListener("click", resetSearch);
                 } else {
                     displayStudentData(student);
-                    if (student.rank && student.rank.startsWith("ال")) {
+                    // --- MODIFIED LOGIC TO CHECK FOR TOP 5 RANKS ---
+                    const topRanks = ["الأول", "الثاني", "الثالث", "الرابع", "الخامس"];
+                    if (student.rank && topRanks.includes(student.rank)) {
                         setTimeout(() => triggerCelebration(student.rank), 500);
                     }
                 }
-            }, 500); // 0.5 second delay
+            }, 500);
         }
 
         function displayStudentData(e) {
