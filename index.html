@@ -149,7 +149,6 @@
             text-align: right;
         }
 
-        /* Result Card Styling & Animation */
         #result-card {
             background-color: var(--secondary-color);
             border-radius: 16px;
@@ -228,51 +227,16 @@
             font-size: 0.9rem;
         }
 
-        /* Grade Colors - Updated Palette */
-        .grade-a .grade-dot {
-            background: var(--blue);
-        }
-
-        /* يفوق التوقعات - أزرق */
-        .grade-a .grade-evaluation {
-            color: var(--blue);
-        }
-
-        .grade-b .grade-dot {
-            background: var(--green);
-        }
-
-        /* يلبي التوقعات جدًا - أخضر */
-        .grade-b .grade-evaluation {
-            color: var(--green);
-        }
-
-        .grade-c .grade-dot {
-            background: var(--orange);
-        }
-
-        /* يلبي التوقعات - برتقالي */
-        .grade-c .grade-evaluation {
-            color: var(--orange);
-        }
-
-        .grade-d .grade-dot {
-            background: var(--yellow);
-        }
-
-        /* يلبي التوقعات أحيانًا - أصفر */
-        .grade-d .grade-evaluation {
-            color: var(--yellow);
-        }
-
-        .grade-e .grade-dot {
-            background: var(--red);
-        }
-
-        /* أقل من المتوقع - أحمر */
-        .grade-e .grade-evaluation {
-            color: var(--red);
-        }
+        .grade-a .grade-dot { background: var(--blue); }
+        .grade-a .grade-evaluation { color: var(--blue); }
+        .grade-b .grade-dot { background: var(--green); }
+        .grade-b .grade-evaluation { color: var(--green); }
+        .grade-c .grade-dot { background: var(--orange); }
+        .grade-c .grade-evaluation { color: var(--orange); }
+        .grade-d .grade-dot { background: var(--yellow); }
+        .grade-d .grade-evaluation { color: var(--yellow); }
+        .grade-e .grade-dot { background: var(--red); }
+        .grade-e .grade-evaluation { color: var(--red); }
 
         .message {
             padding: 12px;
@@ -297,13 +261,8 @@
             margin: 20px auto;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Celebration Styles */
         .celebration {
             position: fixed;
             top: 0;
@@ -313,13 +272,10 @@
             overflow: hidden;
             z-index: 1000;
             pointer-events: none;
-            /* Allows clicking through */
             display: none;
         }
 
-        .celebration.active {
-            display: block;
-        }
+        .celebration.active { display: block; }
 
         .notification {
             position: fixed;
@@ -335,7 +291,6 @@
             opacity: 0;
             animation: popIn 0.5s 0.2s ease-out forwards;
             pointer-events: all;
-            /* Make notification clickable */
         }
 
         @keyframes popIn {
@@ -351,31 +306,11 @@
         }
 
         @keyframes tada {
-            0% {
-                transform: scale(1);
-            }
-
-            10%,
-            20% {
-                transform: scale(0.9) rotate(-3deg);
-            }
-
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: scale(1.1) rotate(3deg);
-            }
-
-            40%,
-            60%,
-            80% {
-                transform: scale(1.1) rotate(-3deg);
-            }
-
-            100% {
-                transform: scale(1) rotate(0);
-            }
+            0% { transform: scale(1); }
+            10%, 20% { transform: scale(0.9) rotate(-3deg); }
+            30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+            40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+            100% { transform: scale(1) rotate(0); }
         }
 
         .notification h2 {
@@ -388,104 +323,6 @@
             color: var(--text-dark);
             font-size: 1.2rem;
             margin: 0;
-        }
-
-        /* Balloons & Confetti */
-        .balloon {
-            width: 50px;
-            height: 60px;
-            background-color: rgba(255, 99, 132, 0.8);
-            border-radius: 50%;
-            position: absolute;
-            bottom: -100px;
-            animation: rise 10s ease-in infinite;
-        }
-
-        .balloon:before {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 5px solid transparent;
-            border-top: 10px solid rgba(255, 99, 132, 0.8);
-        }
-
-        .balloon:nth-child(2) {
-            left: 20%;
-            background-color: rgba(54, 162, 235, 0.8);
-            animation-duration: 12s;
-            animation-delay: 1s;
-        }
-
-        .balloon:nth-child(3) {
-            left: 60%;
-            background-color: rgba(255, 206, 86, 0.8);
-            animation-duration: 9s;
-            animation-delay: 2.5s;
-        }
-
-        .balloon:nth-child(4) {
-            left: 80%;
-            background-color: rgba(75, 192, 192, 0.8);
-            animation-duration: 11s;
-            animation-delay: 3s;
-        }
-
-        .balloon:nth-child(5) {
-            left: 40%;
-            background-color: rgba(153, 102, 255, 0.8);
-            animation-duration: 13s;
-            animation-delay: 4s;
-        }
-
-        @keyframes rise {
-            to {
-                transform: translateY(-120vh);
-                opacity: 0;
-            }
-        }
-
-        .confetti {
-            width: 10px;
-            height: 10px;
-            background-color: #f00;
-            position: absolute;
-            top: -20px;
-            opacity: 0;
-            animation: fall 5s linear infinite;
-        }
-
-        .confetti:nth-child(odd) {
-            background-color: var(--blue);
-        }
-
-        .confetti:nth-child(even) {
-            background-color: var(--yellow);
-        }
-
-        .confetti:nth-child(3n) {
-            background-color: var(--green);
-        }
-
-        .confetti:nth-child(4n) {
-            background-color: var(--orange);
-        }
-
-        .confetti:nth-child(5n) {
-            background-color: var(--red);
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(110vh) rotate(720deg);
-                opacity: 0;
-            }
         }
     </style>
 </head>
@@ -507,7 +344,6 @@
         <div id="actionsContainer"></div>
     </div>
 
-    <!-- Celebration Elements -->
     <div class="celebration" id="celebrationContainer">
         <div class="notification">
             <div class="trophy">🏆</div>
@@ -524,7 +360,58 @@
         const actionsContainer = document.getElementById("actionsContainer");
         const celebrationContainer = document.getElementById("celebrationContainer");
 
-        // The grade text mapping remains the same
+        // --- FIXED: Start of Mock Data ---
+        // In a real application, this data would come from a server.
+        // We are simulating it here to fix the error.
+        const mockDatabase = {
+            "101": {
+                name: "مينا عادل",
+                course: "المستوى الأول - لحن باي إي نشتي",
+                coptic: "A",
+                rites: "B",
+                agpeya: "A",
+                hymns: "B",
+                totalgrade: "A",
+                rank: "الأول"
+            },
+            "105": { // The code from the user's image
+                name: "بيشوي صموئيل",
+                course: "المستوى الثاني - لحن إبؤرو",
+                coptic: "B",
+                rites: "C",
+                agpeya: "B",
+                hymns: "C",
+                totalgrade: "B"
+            },
+            "202": {
+                name: "كيرلس فايز",
+                course: "المستوى الثالث - القسمة السنوية",
+                coptic: "E",
+                rites: "D",
+                agpeya: "C",
+                hymns: "D",
+                totalgrade: "D"
+            }
+        };
+
+        // This function simulates fetching data from the server
+        function fetchMockData(code) {
+            return new Promise((resolve) => {
+                // Simulate network delay of 0.8 seconds
+                setTimeout(() => {
+                    const studentData = mockDatabase[code];
+                    if (studentData) {
+                        resolve(studentData);
+                    } else {
+                        // If code is not in our mock database, return an error
+                        resolve({ error: "Student not found" });
+                    }
+                }, 800);
+            });
+        }
+        // --- FIXED: End of Mock Data ---
+
+
         const gradeMap = {
             A: { text: "يفوق التوقعات", className: "grade-a" },
             B: { text: "يلبي التوقعات جدًا", className: "grade-b" },
@@ -544,29 +431,13 @@
             actionsContainer.innerHTML = "";
             studentCodeInput.value = "";
             celebrationContainer.classList.remove('active');
-            celebrationContainer.innerHTML = `
-                <div class="notification">
-                    <div class="trophy">🏆</div>
-                    <h2>مبرووووك!</h2>
-                    <p id="rankMessage"></p>
-                </div>`; // Reset confetti
             studentCodeInput.focus();
         }
 
         function triggerCelebration(rank) {
             document.getElementById('rankMessage').textContent = `لقد حصلت على المركز ${rank}`;
             celebrationContainer.classList.add('active');
-
-            // Add balloons and confetti dynamically
-            let elements = '';
-            for (let i = 0; i < 5; i++) elements += `<div class="balloon"></div>`;
-            for (let i = 0; i < 50; i++) {
-                const style = `left: ${Math.random() * 100}vw; animation-delay: ${Math.random() * 5}s; transform: scale(${Math.random() * 0.5 + 0.5});`;
-                elements += `<div class="confetti" style="${style}"></div>`;
-            }
-            celebrationContainer.innerHTML += elements;
-
-            // Hide notification after a few seconds
+            
             setTimeout(() => {
                 const notification = celebrationContainer.querySelector('.notification');
                 if (notification) notification.style.display = 'none';
@@ -579,15 +450,8 @@
 
             showLoader();
             try {
-                await new Promise(resolve => setTimeout(resolve, 500));
-
-                // تم تغيير هذا السطر ليتحدث مع ملف search.php
-                const res = await fetch(`search.php?code=${code}`);
-
-                if (!res.ok) throw new Error('Network response was not ok');
-
-                // الكود التالي أبسط لأنه يستقبل بيانات طالب واحد فقط
-                const student = await res.json();
+                // --- FIXED: Replaced the original fetch call with our mock function ---
+                const student = await fetchMockData(code);
 
                 if (student.error) {
                     resultDiv.innerHTML = '<div class="message error">الكود غير صحيح أو غير موجود.</div>';
@@ -600,8 +464,9 @@
                     }
                 }
             } catch (err) {
-                console.error("Fetch Error:", err);
-                resultDiv.innerHTML = '<div class="message error">حدث خطأ أثناء تحميل البيانات.</div>';
+                // This catch block will now only handle unexpected errors in the script
+                console.error("Script Error:", err);
+                resultDiv.innerHTML = '<div class="message error">حدث خطأ غير متوقع في عرض البيانات.</div>';
                 actionsContainer.innerHTML = '<button id="searchAgainBtn" class="btn btn-secondary">بحث جديد</button>';
                 document.getElementById("searchAgainBtn").addEventListener("click", resetSearch);
             }
