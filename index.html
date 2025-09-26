@@ -19,6 +19,11 @@
             --background-color: #F7F8FC;
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
             --border-color: #E3E6F0;
+            --blue: #3182CE;
+            --green: #38A169;
+            --orange: #DD6B20;
+            --yellow: #D69E2E;
+            --red: #E53E3E;
         }
 
         body {
@@ -32,6 +37,7 @@
             padding: 20px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
         .container {
@@ -43,6 +49,7 @@
             box-shadow: var(--card-shadow);
             text-align: center;
             transition: all 0.3s ease-in-out;
+            z-index: 10;
         }
 
         .school-info img {
@@ -88,7 +95,6 @@
             background-color: var(--secondary-color);
             transition: all 0.2s ease;
             box-sizing: border-box;
-            /* Important for padding and border */
         }
 
         #studentCode::placeholder {
@@ -143,13 +149,25 @@
             text-align: right;
         }
 
-        /* Result Card Styling */
+        /* Result Card Styling & Animation */
         #result-card {
             background-color: var(--secondary-color);
             border-radius: 16px;
             padding: 25px;
             text-align: center;
             border: 1px solid var(--border-color);
+            animation: slideInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .student-name {
@@ -193,8 +211,6 @@
             height: 10px;
             border-radius: 50%;
             margin-left: 12px;
-            background-color: #ccc;
-            /* Default for non-graded */
         }
 
         .subject {
@@ -211,51 +227,21 @@
             font-size: 0.9rem;
         }
 
-        /* Grade Colors */
-        .grade-a .grade-dot {
-            background: #38A169;
-        }
+        /* Grade Colors - Updated Palette */
+        .grade-a .grade-dot { background: var(--blue); } /* يفوق التوقعات - أزرق */
+        .grade-a .grade-evaluation { color: var(--blue); }
 
-        /* Green */
-        .grade-a .grade-evaluation {
-            color: #38A169;
-        }
+        .grade-b .grade-dot { background: var(--green); } /* يلبي التوقعات جدًا - أخضر */
+        .grade-b .grade-evaluation { color: var(--green); }
 
-        .grade-b .grade-dot {
-            background: #3182CE;
-        }
+        .grade-c .grade-dot { background: var(--orange); } /* يلبي التوقعات - برتقالي */
+        .grade-c .grade-evaluation { color: var(--orange); }
 
-        /* Blue */
-        .grade-b .grade-evaluation {
-            color: #3182CE;
-        }
+        .grade-d .grade-dot { background: var(--yellow); } /* يلبي التوقعات أحيانًا - أصفر */
+        .grade-d .grade-evaluation { color: var(--yellow); }
 
-        .grade-c .grade-dot {
-            background: #D69E2E;
-        }
-
-        /* Yellow */
-        .grade-c .grade-evaluation {
-            color: #D69E2E;
-        }
-
-        .grade-d .grade-dot {
-            background: #DD6B20;
-        }
-
-        /* Orange */
-        .grade-d .grade-evaluation {
-            color: #DD6B20;
-        }
-
-        .grade-e .grade-dot {
-            background: #E53E3E;
-        }
-
-        /* Red */
-        .grade-e .grade-evaluation {
-            color: #E53E3E;
-        }
+        .grade-e .grade-dot { background: var(--red); } /* أقل من المتوقع - أحمر */
+        .grade-e .grade-evaluation { color: var(--red); }
 
         .message {
             padding: 12px;
@@ -281,10 +267,131 @@
         }
 
         @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Celebration Styles */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1000;
+            pointer-events: none; /* Allows clicking through */
+            display: none;
+        }
+        
+        .celebration.active {
+            display: block;
+        }
+
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
+            background: white;
+            padding: 30px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            text-align: center;
+            z-index: 1001;
+            opacity: 0;
+            animation: popIn 0.5s 0.2s ease-out forwards;
+            pointer-events: all; /* Make notification clickable */
+        }
+        
+        @keyframes popIn {
             to {
-                transform: rotate(360deg);
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
             }
         }
+
+        .notification .trophy {
+            font-size: 4rem;
+            animation: tada 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes tada {
+            0% {transform: scale(1);}
+            10%, 20% {transform: scale(0.9) rotate(-3deg);}
+            30%, 50%, 70%, 90% {transform: scale(1.1) rotate(3deg);}
+            40%, 60%, 80% {transform: scale(1.1) rotate(-3deg);}
+            100% {transform: scale(1) rotate(0);}
+        }
+
+        .notification h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        .notification p {
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        /* Balloons & Confetti */
+        .balloon {
+            width: 50px;
+            height: 60px;
+            background-color: rgba(255, 99, 132, 0.8);
+            border-radius: 50%;
+            position: absolute;
+            bottom: -100px;
+            animation: rise 10s ease-in infinite;
+        }
+        .balloon:before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top: 10px solid rgba(255, 99, 132, 0.8);
+        }
+        .balloon:nth-child(2) { left: 20%; background-color: rgba(54, 162, 235, 0.8); animation-duration: 12s; animation-delay: 1s;}
+        .balloon:nth-child(3) { left: 60%; background-color: rgba(255, 206, 86, 0.8); animation-duration: 9s; animation-delay: 2.5s;}
+        .balloon:nth-child(4) { left: 80%; background-color: rgba(75, 192, 192, 0.8); animation-duration: 11s; animation-delay: 3s;}
+        .balloon:nth-child(5) { left: 40%; background-color: rgba(153, 102, 255, 0.8); animation-duration: 13s; animation-delay: 4s;}
+
+        @keyframes rise {
+            to {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            position: absolute;
+            top: -20px;
+            opacity: 0;
+            animation: fall 5s linear infinite;
+        }
+        .confetti:nth-child(odd) { background-color: var(--blue); }
+        .confetti:nth-child(even) { background-color: var(--yellow); }
+        .confetti:nth-child(3n) { background-color: var(--green); }
+        .confetti:nth-child(4n) { background-color: var(--orange); }
+        .confetti:nth-child(5n) { background-color: var(--red); }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 
@@ -304,13 +411,25 @@
         <div id="result"></div>
         <div id="actionsContainer"></div>
     </div>
+    
+    <!-- Celebration Elements -->
+    <div class="celebration" id="celebrationContainer">
+        <div class="notification">
+            <div class="trophy">🏆</div>
+            <h2>مبرووووك!</h2>
+            <p id="rankMessage"></p>
+        </div>
+    </div>
+
 
     <script>
         const studentCodeInput = document.getElementById("studentCode");
         const submitBtn = document.getElementById("submitBtn");
         const resultDiv = document.getElementById("result");
         const actionsContainer = document.getElementById("actionsContainer");
+        const celebrationContainer = document.getElementById("celebrationContainer");
 
+        // The grade text mapping remains the same
         const gradeMap = {
             A: { text: "يفوق التوقعات", className: "grade-a" },
             B: { text: "يلبي التوقعات جدًا", className: "grade-b" },
@@ -322,13 +441,41 @@
         function showLoader() {
             resultDiv.innerHTML = '<div class="loader"></div>';
             actionsContainer.innerHTML = "";
+            celebrationContainer.classList.remove('active');
         }
 
         function resetSearch() {
             resultDiv.innerHTML = "";
             actionsContainer.innerHTML = "";
             studentCodeInput.value = "";
+            celebrationContainer.classList.remove('active');
+            celebrationContainer.innerHTML = `
+                <div class="notification">
+                    <div class="trophy">🏆</div>
+                    <h2>مبرووووك!</h2>
+                    <p id="rankMessage"></p>
+                </div>`; // Reset confetti
             studentCodeInput.focus();
+        }
+        
+        function triggerCelebration(rank) {
+            document.getElementById('rankMessage').textContent = `لقد حصلت على المركز ${rank}`;
+            celebrationContainer.classList.add('active');
+            
+            // Add balloons and confetti dynamically
+            let elements = '';
+            for(let i=0; i<5; i++) elements += `<div class="balloon"></div>`;
+            for(let i=0; i<50; i++) {
+                const style = `left: ${Math.random() * 100}vw; animation-delay: ${Math.random() * 5}s; transform: scale(${Math.random() * 0.5 + 0.5});`;
+                elements += `<div class="confetti" style="${style}"></div>`;
+            }
+            celebrationContainer.innerHTML += elements;
+
+            // Hide notification after a few seconds
+            setTimeout(() => {
+                const notification = celebrationContainer.querySelector('.notification');
+                if(notification) notification.style.display = 'none';
+            }, 6000);
         }
 
         async function getStudentData() {
@@ -337,9 +484,7 @@
 
             showLoader();
             try {
-                // Using a timeout to simulate network latency for loader visibility
                 await new Promise(resolve => setTimeout(resolve, 500));
-
                 const res = await fetch("results.json");
                 if (!res.ok) throw new Error('Network response was not ok');
                 const data = await res.json();
@@ -347,6 +492,9 @@
                 const student = data.find(item => String(item.code) === code);
                 if (student) {
                     displayStudentData(student);
+                    if (student.rank && student.rank.startsWith("ال")) {
+                       setTimeout(() => triggerCelebration(student.rank), 500);
+                    }
                 } else {
                     resultDiv.innerHTML = '<div class="message error">الكود غير صحيح أو غير موجود.</div>';
                     actionsContainer.innerHTML = '<button id="searchAgainBtn" class="btn btn-secondary">بحث جديد</button>';
@@ -368,12 +516,11 @@
                 { key: "hymns", name: "ألحان" }
             ];
 
-            let gradesHtml = "";
-            subjects.forEach(sub => {
-                if (e.hasOwnProperty(sub.key)) {
-                    const grade = (e[sub.key] || "").toString().toUpperCase();
-                    const g = gradeMap[grade] || { text: "غير مرصود", className: "" };
-                    gradesHtml += `
+            let gradesHtml = subjects.map(sub => {
+                if (!e.hasOwnProperty(sub.key)) return '';
+                const grade = (e[sub.key] || "").toString().toUpperCase();
+                const g = gradeMap[grade] || { text: "غير مرصود", className: "" };
+                return `
                     <div class="grade-item ${g.className}">
                         <div class="subject-container">
                             <div class="grade-dot"></div>
@@ -381,8 +528,7 @@
                         </div>
                         <span class="grade-evaluation">${g.text}</span>
                     </div>`;
-                }
-            });
+            }).join('');
 
             if (e.totalgrade) {
                 const grade = e.totalgrade.toUpperCase();
@@ -401,9 +547,9 @@
                 gradesHtml += `
                 <div class="grade-item">
                     <div class="subject-container">
-                        <span class="subject">الترتيب على الخورس</span>
+                        <span class="subject"><strong>الترتيب على الخورس</strong></span>
                     </div>
-                    <span class="grade-evaluation">${e.rank}</span>
+                    <span class="grade-evaluation" style="color: var(--primary-color); background-color: #E9E8FD;"><strong>${e.rank}</strong></span>
                 </div>`;
             }
 
