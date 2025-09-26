@@ -360,57 +360,23 @@
         const actionsContainer = document.getElementById("actionsContainer");
         const celebrationContainer = document.getElementById("celebrationContainer");
 
-        // --- FIXED: Start of Mock Data ---
-        // In a real application, this data would come from a server.
-        // We are simulating it here to fix the error.
-        const mockDatabase = {
-            "101": {
-                name: "مينا عادل",
-                course: "المستوى الأول - لحن باي إي نشتي",
-                coptic: "A",
-                rites: "B",
-                agpeya: "A",
-                hymns: "B",
-                totalgrade: "A",
-                rank: "الأول"
-            },
-            "105": { // The code from the user's image
-                name: "بيشوي صموئيل",
-                course: "المستوى الثاني - لحن إبؤرو",
-                coptic: "B",
-                rites: "C",
-                agpeya: "B",
-                hymns: "C",
-                totalgrade: "B"
-            },
-            "202": {
-                name: "كيرلس فايز",
-                course: "المستوى الثالث - القسمة السنوية",
-                coptic: "E",
-                rites: "D",
-                agpeya: "C",
-                hymns: "D",
-                totalgrade: "D"
+        // --- CORRECTED LOGIC ---
+        // 1. A variable to hold all student data once loaded.
+        let allStudentsData = [];
+
+        // 2. Load all data from the JSON file when the page starts.
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const response = await fetch('results.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                allStudentsData = await response.json();
+            } catch (error) {
+                console.error('Failed to load student data:', error);
+                resultDiv.innerHTML = '<div class="message error">فشل تحميل ملف النتائج. تأكد من أن الملف موجود وبنفس اسم results.json</div>';
             }
-        };
-
-        // This function simulates fetching data from the server
-        function fetchMockData(code) {
-            return new Promise((resolve) => {
-                // Simulate network delay of 0.8 seconds
-                setTimeout(() => {
-                    const studentData = mockDatabase[code];
-                    if (studentData) {
-                        resolve(studentData);
-                    } else {
-                        // If code is not in our mock database, return an error
-                        resolve({ error: "Student not found" });
-                    }
-                }, 800);
-            });
-        }
-        // --- FIXED: End of Mock Data ---
-
+        });
 
         const gradeMap = {
             A: { text: "يفوق التوقعات", className: "grade-a" },
@@ -444,16 +410,18 @@
             }, 6000);
         }
 
-        async function getStudentData() {
+        // 3. The search function now looks for a student in the loaded data.
+        function getStudentData() {
             const code = studentCodeInput.value.trim();
             if (!code) return;
 
             showLoader();
-            try {
-                // --- FIXED: Replaced the original fetch call with our mock function ---
-                const student = await fetchMockData(code);
+            
+            // Simulate a short delay to make the loader visible
+            setTimeout(() => {
+                const student = allStudentsData.find(s => s.code === code);
 
-                if (student.error) {
+                if (!student) {
                     resultDiv.innerHTML = '<div class="message error">الكود غير صحيح أو غير موجود.</div>';
                     actionsContainer.innerHTML = '<button id="searchAgainBtn" class="btn btn-secondary">بحث جديد</button>';
                     document.getElementById("searchAgainBtn").addEventListener("click", resetSearch);
@@ -463,13 +431,7 @@
                         setTimeout(() => triggerCelebration(student.rank), 500);
                     }
                 }
-            } catch (err) {
-                // This catch block will now only handle unexpected errors in the script
-                console.error("Script Error:", err);
-                resultDiv.innerHTML = '<div class="message error">حدث خطأ غير متوقع في عرض البيانات.</div>';
-                actionsContainer.innerHTML = '<button id="searchAgainBtn" class="btn btn-secondary">بحث جديد</button>';
-                document.getElementById("searchAgainBtn").addEventListener("click", resetSearch);
-            }
+            }, 500); // 0.5 second delay
         }
 
         function displayStudentData(e) {
